@@ -1,0 +1,15 @@
+<div class="row py-2">
+  <div class="col-12">
+    <form (ngSubmit)="save()">
+      <div class="form-group">
+        <label>Name</label>
+        <input [(ngModel)]="student.name" type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+      </div>
+      <div class="form-group">
+        <label>Age</label>
+        <input [(ngModel)]="student.age" type="text" class="form-control" id="age" name="age" placeholder="Enter age">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>

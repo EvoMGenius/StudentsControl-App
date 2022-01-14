@@ -1,0 +1,37 @@
+version: '3'
+services:
+  apatrios-webfrontend:
+    image: webfrontend:latest
+    ports:
+      - 8081:80
+
+  apatrios-springbootapp-backend:
+    image: registry.heroku.com/apatrios-springboot-app/web:latest
+    ports:
+      - 8189
+    depends_on:
+      - db
+    command: bash -c "/apps/wait-for-service.sh db 3306 && /apps/entrypoint.sh"
+
+  db:
+    #    image: postgres
+    #    restart: always
+    #    environment:
+    #      POSTGRES_PASSWORD: password
+    #    ports:
+    #    - 5432:5432
+
+    image: mysql:8.0.23
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
+
+#
+#apatrios-springbootapp-backend:
+#  image: registry.heroku.com/apatrios-springboot-app/web:latest
