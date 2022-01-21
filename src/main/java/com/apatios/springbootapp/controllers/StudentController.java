@@ -1,13 +1,15 @@
 package com.apatios.springbootapp.controllers;
 
 import com.apatios.springbootapp.entities.Student;
+import com.apatios.springbootapp.exceptions.InvalidAttributeValueException;
+import com.apatios.springbootapp.exceptions.ResourceNotFoundException;
 import com.apatios.springbootapp.services.StudentService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/students")
 public class StudentController {
     private final StudentService service;
 
@@ -22,12 +24,23 @@ public class StudentController {
 
     @GetMapping(value = "/{id}")
     public Student findById(@PathVariable Long id){
-        return service.findById(id).get();
+        return service.findById(id).orElseThrow(()-> new ResourceNotFoundException("Student not found, id: "+id));
     }
 
     @PostMapping
     public Student save(@RequestBody Student student){
-            return service.save(student);
+        if(student.getId()!=null){
+            throw new InvalidAttributeValueException(String.format("ID of this student %s must be null", student));
+        }
+        return service.save(student);
+    }
+
+    @PutMapping
+    public Student update(@RequestBody Student student){
+        if(student.getId()==null){
+            throw new InvalidAttributeValueException(String.format("ID of this student %s mustn't be null", student));
+        }
+        return service.save(student);
     }
 
     @DeleteMapping("/{id}")

@@ -1,0 +1,29 @@
+<div class="row py-2">
+  <div class="col-12">
+    <a class="btn btn-primary" routerLink="/student/new">Add Student</a>
+  </div>
+
+  <div class="col-12">
+    <table class="table table-bordered my-2">
+      <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Age</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let student of students">
+        <th scope="row">{{student.id}}</th>
+        <td>{{student.name}}</td>
+        <td>{{student.age}}</td>
+        <td>
+          <a class="btn btn-success" routerLink="/student/{{student.id}}"><i class="fas fa-edit"></i></a>
+          <a class="btn btn-danger" (click)="delete(student.id)"><i class="far fa-trash-alt"></i></a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
